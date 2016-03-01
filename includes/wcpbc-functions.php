@@ -17,15 +17,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return string
  */
-function wcpbc_get_woocommerce_country() {
+function wcpbc_get_woocommerce_zipcode() {
 	
-	$_country = WC()->customer->get_country();	
+	$code = WC()->customer->get_postcode();	
 	
-	if ( $_country !== WC()->customer->get_shipping_country() && 'shipping' === get_option('wc_price_based_country_based_on', 'billing') ) {
-		$_country = WC()->customer->get_shipping_country();	
+	if ( $code !== WC()->customer->get_shipping_postcode() ) {
+		$code = WC()->customer->get_shipping_postcode();	
 	}		
 	
-	return $_country;
+	return $code;
 }
 
 /**

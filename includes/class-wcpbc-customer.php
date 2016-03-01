@@ -32,11 +32,11 @@ class WCPBC_Customer {
 		
 		$this->_data = WC()->session->get( 'wcpbc_customer' );	
 		
-		$wc_customer_country = wcpbc_get_woocommerce_country();					
+		$wc_customer_zipcode = wcpbc_get_woocommerce_zipcode();					
 
-		if ( empty( $this->_data ) || ! in_array( $wc_customer_country, $this->countries ) || ( $this->timestamp < get_option( 'wc_price_based_country_timestamp' ) ) ) {
+		if ( empty( $this->_data ) || ! in_array( $wc_customer_zipcode, $this->zipcodes ) || ( $this->timestamp < get_option( 'wc_price_based_country_timestamp' ) ) ) {
 
-			$this->set_country( $wc_customer_country );
+			$this->set_zipcode( $wc_customer_country );
 		}
 
 		if ( ! WC()->session->has_session() ) {
@@ -71,7 +71,7 @@ class WCPBC_Customer {
 
 		$value = isset( $this->_data[ $property ] ) ? $this->_data[ $property ] : '';
 
-		if ( $property === 'countries' && ! $value) {
+		if ( $property === 'zipcodes' && ! $value) {
 			$value = array();			
 		}
 
@@ -85,21 +85,50 @@ class WCPBC_Customer {
 	 * @param mixed $country
 	 * @return boolean
 	 */
-	public function set_country( $country ) {
+	public function set_zipcode( $region ) {
 		
 		$has_region = false;
 
-		$this->_data = array();	
-		
-		foreach ( WCPBZIP()->get_regions() as $key => $group_data ) {				
+		$this->_data = array();
 
-			if ( in_array( $country, $group_data['countries'] ) ) {
-				$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
-				$has_region = true;
+		foreach ( WCPBZIP()->get_regions() as $key => $group_data ) {
+			$isset = false;
+
+			$codes = explode( ',' , $group_data[ 'zipcodes' ] );
+			foreach ( $codes as $code ) {
+				if ( in_array( $code, $codes ) ) {
+					$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
+					$has_region = true;
+					break;
+				}
+				$multiple = explode(' ', $package['destination']['postcode']);
+				$multiple = $multiple[0] . ' *';
+				if( in_array( $multiple, $this->codes_array ) ) {
+					$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
+					$has_region = true;
+					break;
+				}
+
+				$postcode = $code;
+				$postcode_size = strlen( $postcode );
+				for ($i = 0; $i != $postcode_size; $i++) {
+					$postcode = substr_replace( $postcode, '', -1 );
+					$multiple = $postcode . '*';
+					if( in_array( $multiple, $codes ) ){
+						$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
+						$has_region = true;
+						break;
+					}
+				}
+				if ( $has_region ) {
+					break;
+				}
+			}
+			if ( $has_region ) {
 				break;
-			}			
-					
+			}	
 		}
+
 		
 		$this->_changed = true;
 
