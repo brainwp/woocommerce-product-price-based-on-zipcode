@@ -24,7 +24,7 @@ class WCPBC_Frontend {
 		
 		add_action( 'wp_enqueue_scripts', array( __CLASS__ , 'load_checkout_script' ) );
 
-		add_action( 'woocommerce_checkout_update_order_review', array( __CLASS__ , 'checkout_country_update' ) );	
+		add_action( 'woocommerce_checkout_update_order_review', array( __CLASS__ , 'checkout_zipcode_update' ) );	
 	}	
 		
 	/**
@@ -56,7 +56,7 @@ class WCPBC_Frontend {
 	 * Return test store message 
 	 */
 	public static function test_store_message() {
-		echo '<p class="demo_store">' . __( 'This is a demo store for testing purposes', 'wc-price-based-country') . '</p>';
+		echo '<p class="demo_store">' . __( 'This is a demo store for testing purposes', 'wc-price-based-zipcode') . '</p>';
 	}
 	
 	/**
@@ -82,15 +82,15 @@ class WCPBC_Frontend {
 	/**
 	 * Update WCPBC Customer country when order review is update
 	 */
-	public static function checkout_country_update( $post_data ) {			
-		$country = isset( $_POST['country'] ) ? $_POST['country'] : '';
+	public static function checkout_zipcode_update( $post_data ) {
+		$zipcode = isset( $_POST['postcode'] ) ? $_POST['postcode'] : '';
 		
-		if ( isset( $_POST['s_country'] ) && ! wc_ship_to_billing_address_only() && get_option('wc_price_based_country_based_on', 'billing') == 'shipping' ) {			
-			$country = $_POST['s_country'];
+		if ( isset( $_POST['s_postcode'] ) && ! wc_ship_to_billing_address_only() ) {			
+			$zipcode = $_POST['s_postcode'];
 		}
 
-		if ( $country && ! in_array( $country , WCPBZIP()->customer->countries ) ) {			
-			WCPBZIP()->customer->set_country( $country );
+		if ( $zipcode ) {			
+			WCPBZIP()->customer->set_zipcode( $zipcode );
 		}
 	}
 }

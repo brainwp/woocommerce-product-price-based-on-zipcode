@@ -20,7 +20,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 	public function __construct() {
 
 		$this->id    = 'price-based-country';
-		$this->label = __( 'Price Based on Country', 'wc-price-based-country' );
+		$this->label = __( 'Price Based on Country', 'wc-price-based-zipcode' );
 
 		add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'woocommerce_settings_' . $this->id, array( $this, 'output' ) );
@@ -39,7 +39,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 	public function get_sections() {
 		$sections = array(
 			''         => __( 'Settings', 'woocommerce' ),
-			'regions'     => __( 'Regions', 'wc-price-based-country' )		
+			'regions'     => __( 'Regions', 'wc-price-based-zipcode' )		
 		);
 
 		return apply_filters( 'wc_price_based_country_get_sections', $sections );
@@ -60,7 +60,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 			),
 
 			array(
-				'title'    => __( 'Price Based On', 'wc-price-based-country' ),
+				'title'    => __( 'Price Based On', 'wc-price-based-zipcode' ),
 				'desc'     => __( 'This controls which address is used to refresh products prices on checkout.' ),
 				'id'       => 'wc_price_based_country_based_on',
 				'default'  => 'billing',
@@ -68,14 +68,14 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 				'class'    => 'wc-enhanced-select',				
 				'desc_tip' =>  true,
 				'options'  => array(
-					'billing'      => __( 'Customer billing country', 'wc-price-based-country' ),
-					'shipping' => __( 'Customer shipping country', 'wc-price-based-country' )
+					'billing'      => __( 'Customer billing country', 'wc-price-based-zipcode' ),
+					'shipping' => __( 'Customer shipping country', 'wc-price-based-zipcode' )
 				)
 			),
 			
 			array(
-				'title'    => __( 'Shipping', 'wc-price-based-country' ),
-				'desc' 		=> __( 'Enabled currency conversion to "Flat Rate" And "International Flat Rate"', 'wc-price-based-country' ),
+				'title'    => __( 'Shipping', 'wc-price-based-zipcode' ),
+				'desc' 		=> __( 'Enabled currency conversion to "Flat Rate" And "International Flat Rate"', 'wc-price-based-zipcode' ),
 				'id' 		=> 'wc_price_based_shipping_conversion',
 				'default'	=> 'no',
 				'type' 		=> 'checkbox'				
@@ -87,15 +87,15 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 			),
 
 			array( 
-				'title' => __( 'Test Mode', 'wc-price-based-country' ), 
+				'title' => __( 'Test Mode', 'wc-price-based-zipcode' ), 
 				'type' => 'title', 
 				'desc' => 'If you want to check that prices are shown successfully, enable test mode and enter the Country which you want to do the test.', 
 				'id' => 'price_based_country_test'
 			),
 
 			array(
-				'title' => __( 'Enabled/Disabled', 'wc-price-based-country' ),
-				'desc' 		=> __( 'Enabled Test Mode', 'wc-price-based-country' ),
+				'title' => __( 'Enabled/Disabled', 'wc-price-based-zipcode' ),
+				'desc' 		=> __( 'Enabled Test Mode', 'wc-price-based-zipcode' ),
 				'id' 		=> 'wc_price_based_country_test_mode',
 				'default'	=> 'no',
 				'type' 		=> 'checkbox',
@@ -103,7 +103,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 			),
 
 			array(
-				'title' => __( 'Test country', 'wc-price-based-country' ),					
+				'title' => __( 'Test country', 'wc-price-based-zipcode' ),					
 				'id' 		=> 'wc_price_based_country_test_country',				
 				'default'	=> wc_get_base_location(),
 				'type' 		=> 'select',
@@ -169,7 +169,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 				?>
 				<div class="updated">
 					<p><strong>Donate to Price Based Country</strong></p>
-					<p><?php _e('It is difficult to provide, support, and maintain free software. Every little bit helps is greatly appreciated!','wc-price-based-country') ; ?></p>
+					<p><?php _e('It is difficult to provide, support, and maintain free software. Every little bit helps is greatly appreciated!','wc-price-based-zipcode') ; ?></p>
 					<p class="submit">
 						<a class="button-primary" target="_blank" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=NG75SHRLAX28L"><?php _e( 'Donate now', 'woocommerce' ); ?></a>
 						<a class="skip button-secondary" href="<?php echo esc_url( add_query_arg( 'wc_price_based_country_donate_hide', 'true', admin_url( 'admin.php?page=wc-settings&tab=price-based-country' ) ) ); ?>">Don't show me again</a>
@@ -203,7 +203,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 		
 		include_once( WCPBZIP()->plugin_path() . 'includes/admin/class-wcpbc-admin-regions-table-list.php' );
 
-		echo '<h3>' .  __( 'Regions', 'wc-price-based-country' ) . ' <a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=regions&add_region=1' ) ) . '" class="add-new-h2">' . __( 'Add Region', 'wc-price-based-country' ) . '</a></h3>';
+		echo '<h3>' .  __( 'Regions', 'wc-price-based-zipcode' ) . ' <a href="' . esc_url( admin_url( 'admin.php?page=wc-settings&tab=price-based-country&section=regions&add_region=1' ) ) . '" class="add-new-h2">' . __( 'Add Region', 'wc-price-based-zipcode' ) . '</a></h3>';
 
 		 $keys_table_list = new WCPBC_Admin_Regions_Table_List();
 		 $keys_table_list->prepare_items();
@@ -277,10 +277,10 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 		$valid = false;
 		
 		if ( empty( $fields['name'] ) ) {
-			WC_Admin_Settings::add_error( __( 'Group name is required.', 'wc-price-based-country' ) );
+			WC_Admin_Settings::add_error( __( 'Group name is required.', 'wc-price-based-zipcode' ) );
 
 		} elseif ( ! isset( $fields['zipcodes'] ) || empty( $fields['zipcodes'] ) ) {
-			WC_Admin_Settings::add_error( __( 'Add at least one ZipCode to the list.', 'wc-price-based-country' ) );
+			WC_Admin_Settings::add_error( __( 'Add at least one ZipCode to the list.', 'wc-price-based-zipcode' ) );
 
 		} else {
 			$valid = true;
@@ -350,7 +350,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 			update_option( 'wc_price_based_country_regions', $regions );			
 			update_option( 'wc_price_based_country_timestamp', time() );
 
-			WC_Admin_Settings::add_message( __( 'Region have been deleted.', 'wc-price-based-country' ) );
+			WC_Admin_Settings::add_message( __( 'Region have been deleted.', 'wc-price-based-zipcode' ) );
 		}					
 	}
 

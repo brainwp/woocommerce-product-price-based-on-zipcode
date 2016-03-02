@@ -23,19 +23,19 @@ class WCPBC_Widget_Country_Selector extends WC_Widget {
 	 * Constructor
 	 */
 	public function __construct() {		
-		$this->widget_description = __( 'A country switcher for your store.', 'wc-price-based-country' );
+		$this->widget_description = __( 'A country switcher for your store.', 'wc-price-based-zipcode' );
 		$this->widget_id          = 'wcpbc_country_selector';
-		$this->widget_name        = __( 'WooCommerce Country Switcher', 'wc-price-based-country' );
+		$this->widget_name        = __( 'WooCommerce Country Switcher', 'wc-price-based-zipcode' );
 		$this->settings           = array(
 			'title'  => array(
 				'type'  => 'text',
-				'std'   => __( 'Country', 'wc-price-based-country' ),
-				'label' => __( 'Title', 'wc-price-based-country' )
+				'std'   => __( 'Country', 'wc-price-based-zipcode' ),
+				'label' => __( 'Title', 'wc-price-based-zipcode' )
 			),
 			'other_countries_text'  => array(
 				'type'  => 'text',
-				'std'   => __( 'Other countries', 'wc-price-based-country' ) ,
-				'label' => __( 'Other countries text', 'wc-price-based-country' )
+				'std'   => __( 'Other countries', 'wc-price-based-zipcode' ) ,
+				'label' => __( 'Other countries text', 'wc-price-based-zipcode' )
 			)
 		);
 

@@ -53,10 +53,10 @@ class WCPBC_Admin_Product_Data {
 								'id' => '_' . $key . '_price_method',
 								'value' => $_price_method,
 								'class' => 'wcpbc_price_method',
-								'label' => __( 'Price for', 'wc-price-based-country' )  . ' ' . $value['name']. ' (' . get_woocommerce_currency_symbol( $value['currency'] ) . ')',								
+								'label' => __( 'Price for', 'wc-price-based-zipcode' )  . ' ' . $value['name']. ' (' . get_woocommerce_currency_symbol( $value['currency'] ) . ')',								
 								'options' => array(
-									'exchange_rate' => __('Calculate price by applying exchange rate.', 'wc-price-based-country'),
-									'manual' => __('Set price manually.', 'wc-price-based-country')
+									'exchange_rate' => __('Calculate price by applying exchange rate.', 'wc-price-based-zipcode'),
+									'manual' => __('Set price manually.', 'wc-price-based-zipcode')
 								)
 							)
 						);
@@ -148,20 +148,20 @@ class WCPBC_Admin_Product_Data {
 			?>
 				<div style="width:100%; overflow:auto; padding-right:10px;border-top:1px solid #eee;">
 					
-					<p class="form-row form-row-first"><strong><?php echo __( 'Price for', 'wc-price-based-country' )  . ' ' . $value['name'] . ' (' . get_woocommerce_currency_symbol( $value['currency'] ) . ')'; ?></strong></p>
+					<p class="form-row form-row-first"><strong><?php echo __( 'Price for', 'wc-price-based-zipcode' )  . ' ' . $value['name'] . ' (' . get_woocommerce_currency_symbol( $value['currency'] ) . ')'; ?></strong></p>
 
 					<div class="form-row form-row-last <?php echo '_' . $key . '_variable_price_method_' . $loop . '_field'; ?>">
 						<ul>
 							<li style="padding:0;">
 								<label>
 									<input name="<?php echo '_' . $key . '_variable_price_method[' . $loop . ']'; ?>" value="exchange_rate" class="wcpbc_price_method" <?php echo ($_empty_method == 'exchange_rate' ? 'checked="checked"':'');?> type="radio">
-									<?php _e('Calculate price by applying exchange rate.', 'wc-price-based-country') ?>
+									<?php _e('Calculate price by applying exchange rate.', 'wc-price-based-zipcode') ?>
 								</label>
 							</li>
 							<li style="padding:0;">
 								<label>
 									<input name="<?php echo '_' . $key . '_variable_price_method[' . $loop . ']'; ?>" value="manual" class="wcpbc_price_method" <?php echo ($_empty_method != 'exchange_rate' ? 'checked="checked"':'');?>type="radio">
-									<?php _e('Set price manually.', 'wc-price-based-country') ?>
+									<?php _e('Set price manually.', 'wc-price-based-zipcode') ?>
 								</label>
 							</li>
 						</ul>

@@ -21,7 +21,7 @@ function wcpbc_get_woocommerce_zipcode() {
 	
 	$code = WC()->customer->get_postcode();	
 	
-	if ( $code !== WC()->customer->get_shipping_postcode() ) {
+	if ( $code !== WC()->customer->get_shipping_postcode() && ! empty( WC()->customer->get_shipping_postcode() ) ) {
 		$code = WC()->customer->get_shipping_postcode();	
 	}		
 	

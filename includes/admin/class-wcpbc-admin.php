@@ -131,7 +131,7 @@ class WCPBC_Admin {
 	 * @since 1.5
 	 */
 	public static function create_about_page() {
-		$about_page = add_dashboard_page( __( 'Welcome to WooCommerce Price Based On Countries', 'wc-price-based-country' ), __( 'About WooCommerce Price Based On Countries', 'wc-price-based-country' ), 'manage_options', 'wcpbc-about', array( __CLASS__, 'about_screen' ) );		
+		$about_page = add_dashboard_page( __( 'Welcome to WooCommerce Price Based On Countries', 'wc-price-based-zipcode' ), __( 'About WooCommerce Price Based On Countries', 'wc-price-based-zipcode' ), 'manage_options', 'wcpbc-about', array( __CLASS__, 'about_screen' ) );		
 		add_action( 'admin_head', array( __CLASS__, 'remove_about_page_link' ) );
 	}
 	

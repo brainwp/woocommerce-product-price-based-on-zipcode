@@ -109,7 +109,7 @@ class WCPBC_Admin_Translation_Management {
 	public static function disable_wcml_multicurrency_notice(){
 		?>
 		<div class="error">
-			<p><?php _e( '<strong>WooCommerce Price Based Country incompatiblity found!</strong><br />WooCommerce Multilingual Multiple currencies is incompatible with WooCommerce Price Based on Country. While WooCommerce Multilingual Multiple currencies option is active can cause unexpected results. Go to <a href="' . admin_url( 'admin.php?page=wpml-wcml' ) . '">WooCommerce Multilingual settings page</a> and disables WooCommerce Multilingual Multi Currency option.', 'wc-price-based-country' ); ?></p>						
+			<p><?php _e( '<strong>WooCommerce Price Based Country incompatiblity found!</strong><br />WooCommerce Multilingual Multiple currencies is incompatible with WooCommerce Price Based on Country. While WooCommerce Multilingual Multiple currencies option is active can cause unexpected results. Go to <a href="' . admin_url( 'admin.php?page=wpml-wcml' ) . '">WooCommerce Multilingual settings page</a> and disables WooCommerce Multilingual Multi Currency option.', 'wc-price-based-zipcode' ); ?></p>						
 		</div>		
 		<?php
 	}
