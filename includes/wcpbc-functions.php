@@ -18,14 +18,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function wcpbc_get_woocommerce_zipcode() {
-	
+	if ( is_admin() ) {
+		return;
+	}
 	$code = WC()->customer->get_postcode();	
-	
-	if ( $code !== WC()->customer->get_shipping_postcode() && ! empty( WC()->customer->get_shipping_postcode() ) ) {
+
+	if ( $code !== WC()->customer->get_shipping_postcode() && WC()->customer->get_shipping_postcode() ) {
 		$code = WC()->customer->get_shipping_postcode();	
 	}		
-	
-	return $code;
+
+	if ( $code ) {
+		return $code;
+	}
 }
 
 /**
