@@ -21,6 +21,8 @@ class WCPBC_Admin_Product_Data {
 		
 		add_action( 'woocommerce_process_product_meta_simple', array( __CLASS__, 'process_product_simple_countries_prices' ) ) ;						
 
+		add_action( 'woocommerce_process_product_meta_yith_bundle', array( __CLASS__, 'process_product_simple_countries_prices' ) ) ;						
+
 		add_action( 'woocommerce_process_product_meta_external', array( __CLASS__, 'process_product_simple_countries_prices' ) ) ;						
 		
 		add_action( 'woocommerce_product_after_variable_attributes', array( __CLASS__, 'product_variable_attributes_countries_prices') , 10, 3 );				

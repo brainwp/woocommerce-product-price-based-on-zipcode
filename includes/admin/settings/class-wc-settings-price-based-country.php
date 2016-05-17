@@ -20,7 +20,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 	public function __construct() {
 
 		$this->id    = 'price-based-country';
-		$this->label = __( 'Price Based on Country', 'wc-price-based-zipcode' );
+		$this->label = __( 'Price based on ZipCode', 'wc-price-based-zipcode' );
 
 		add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'woocommerce_settings_' . $this->id, array( $this, 'output' ) );
