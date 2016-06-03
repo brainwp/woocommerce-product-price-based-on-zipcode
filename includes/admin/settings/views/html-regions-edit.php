@@ -61,7 +61,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 	</table>
 
-	<?php do_action( 'wc_price_based_country_admin_region_fields', $region ); ?>	
+	<?php do_action( 'wc_price_based_zipcode_admin_region_fields', $region ); ?>	
 	
 	<input type="hidden" name="page" value="wc-settings" />
 	<input type="hidden" name="tab" value="wc_price_based_country" />

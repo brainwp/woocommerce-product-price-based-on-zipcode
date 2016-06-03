@@ -51,7 +51,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 	 * @return array
 	 */
 	public function get_settings() {
-		$settings = apply_filters( 'wc_price_based_country_settings', array(
+		$settings = apply_filters( 'wc_price_based_zipcode_settings', array(
 			array(
 				'title' => __( 'General Options', 'woocommerce' ),
 				'type'  => 'title',
@@ -219,7 +219,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 	 */
 	private static function get_regions_data( $key, $values = FALSE ) {	
 
-		$region = apply_filters( 'wc_price_based_country_default_region_data', array(
+		$region = apply_filters( 'wc_price_based_zipcode_default_region_data', array(
 			'name'        			=> '',
 			'zipcodes'       		=> '',
 			'currency'   			=> get_option('woocommerce_currency'),
@@ -305,7 +305,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 		 	if (is_null($region_key)) {
 		 		$region_key = self::get_unique_slug( sanitize_title( $region['name']), array_keys( $regions ) );
 		 	}
-		 	$regions[$region_key] = $region;
+		 	$regions[$region_key] = apply_filters( 'wc_price_based_zipcode_save_region_data', $region );
 
 		 	update_option( 'wc_price_based_country_regions', $regions );			
 
