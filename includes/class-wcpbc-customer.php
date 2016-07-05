@@ -124,7 +124,6 @@ class WCPBC_Customer {
 				break;
 			}
 			foreach( $codes as $zipcode ) {
-				var_dump( $zipcode );
 				if ( intval( $zipcode ) == $wc_customer_zipcode ) {
 					$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
 					$has_region = true;
