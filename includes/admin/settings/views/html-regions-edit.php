@@ -22,10 +22,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<!-- Country multiselect -->			
 		<tr valign="top">
 			<th scope="row" class="titledesc">
-				<label for="zipcodes"><?php _e( 'ZipCodes (separated by commas)', 'wc-price-based-zipcode' ); ?></label>
+				<label for="zipcodes"><?php _e( 'ZipCodes (one per line)', 'wc-price-based-zipcode' ); ?></label>
 			</th>
 			<td class="forminp">
-				<textarea name="zipcodes"><?php echo esc_textarea( $region['zipcodes'] ); ?></textarea>
+				<textarea style="width:74%;" name="zipcodes"><?php echo esc_textarea( $region['zipcodes'] ); ?></textarea>
 			</td>
 		</tr>
 

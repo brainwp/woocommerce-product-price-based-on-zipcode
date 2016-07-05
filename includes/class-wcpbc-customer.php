@@ -64,25 +64,23 @@ class WCPBC_Customer {
 	 * @access public
 	 */
 	public function zipcode_exists( $wc_customer_zipcode, $zipcodes ) {
-		$codes = explode( ',', $zipcodes[ 'zipcodes' ] );
+		$codes = explode( "\n", $zipcodes[ 'zipcodes' ] );
+		$wc_customer_zipcode = str_replace( array(' ', '-' ), '', $wc_customer_zipcode );
+		$wc_customer_zipcode = intval( $wc_customer_zipcode );
 		if ( in_array( $wcpbc_customer, $zipcodes ) ) {
 			return true;
 		}
-		$multiple = explode( ' ', $wc_customer_zipcode );
-		$multiple = $multiple[0] . ' *';
-		if( in_array( $multiple, $codes ) ) {
-			return true;
-		}
-		$postcode = $wc_customer_zipcode;
-		$postcode_size = strlen( $postcode );
-		for ($i = 0; $i != $postcode_size; $i++) {
-			$postcode = substr_replace( $postcode, '', -1 );
-			$multiple = $postcode . '*';
-			if( in_array( $multiple, $codes ) ) {
+		foreach( $codes as $zipcode ) {
+			if ( intval( $zipcode ) == $wc_customer_zipcode ) {
+				return true;
+			}
+			$zipcode = explode( '- ', $zipcode );
+			$zipcode = $zipcode[1];
+			$zipcode = explode( '|', $zipcode );
+			if ( $wc_customer_zipcode >= intval( $zipcode[0] ) && $wc_customer_zipcode <= intval( $zipcode[1] ) ) {
 				return true;
 			}
 		}
-
 		return false;
 
 	}
@@ -115,29 +113,27 @@ class WCPBC_Customer {
 		$has_region = false;
 
 		$this->_data = array();
+		$wc_customer_zipcode = str_replace( array(' ', '-' ), '', $wc_customer_zipcode );
+		$wc_customer_zipcode = intval( $wc_customer_zipcode );
 
 		foreach ( WCPBZIP()->get_regions() as $key => $group_data ) {
-			$isset = false;
-
-			$codes = explode( ',' , $group_data[ 'zipcodes' ] );
+			$codes = explode( "\n", $group_data[ 'zipcodes' ] );
 			if ( in_array( $wc_customer_zipcode, $codes ) ) {
 				$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
 				$has_region = true;
 				break;
 			}
-			$multiple = explode( ' ', $wc_customer_zipcode );
-			$multiple = $multiple[0] . ' *';
-			if( in_array( $multiple, $codes ) ) {
-				$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
-				$has_region = true;
-				break;
-			}
-			$postcode = $wc_customer_zipcode;
-			$postcode_size = strlen( $postcode );
-			for ($i = 0; $i != $postcode_size; $i++) {
-				$postcode = substr_replace( $postcode, '', -1 );
-				$multiple = $postcode . '*';
-				if( in_array( $multiple, $codes ) ) {
+			foreach( $codes as $zipcode ) {
+				var_dump( $zipcode );
+				if ( intval( $zipcode ) == $wc_customer_zipcode ) {
+					$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
+					$has_region = true;
+					break;
+				}
+				$zipcode = explode( '- ', $zipcode );
+				$zipcode = $zipcode[1];
+				$zipcode = explode( '|', $zipcode );
+				if ( $wc_customer_zipcode >= intval( $zipcode[0] ) && $wc_customer_zipcode <= intval( $zipcode[1] ) ) {
 					$this->_data = array_merge( $group_data, array( 'group_key' => $key, 'timestamp' => time() ) );
 					$has_region = true;
 					break;
