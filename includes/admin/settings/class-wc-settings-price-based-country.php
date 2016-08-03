@@ -85,33 +85,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 				'type' => 'sectionend',
 				'id' => 'general_options'
 			),
-
-			array( 
-				'title' => __( 'Test Mode', 'wc-price-based-zipcode' ), 
-				'type' => 'title', 
-				'desc' => 'If you want to check that prices are shown successfully, enable test mode and enter the Country which you want to do the test.', 
-				'id' => 'price_based_country_test'
-			),
-
-			array(
-				'title' => __( 'Enabled/Disabled', 'wc-price-based-zipcode' ),
-				'desc' 		=> __( 'Enabled Test Mode', 'wc-price-based-zipcode' ),
-				'id' 		=> 'wc_price_based_country_test_mode',
-				'default'	=> 'no',
-				'type' 		=> 'checkbox',
-				'desc_tip'	=> __('If test mode is enabled, a demo store notice will be displayed .')
-			),
-
-			array(
-				'title' => __( 'Test country', 'wc-price-based-zipcode' ),					
-				'id' 		=> 'wc_price_based_country_test_country',				
-				'default'	=> wc_get_base_location(),
-				'type' 		=> 'select',
-				'class'		=> 'chosen_select',
-				'options'	=>	WC()->countries->countries
-			),
 			
-			array( 'type' => 'sectionend', 'id' => 'price_based_country_test' )
 		));
 
 		return $settings;
@@ -122,9 +96,7 @@ class WC_Settings_Price_Based_Country extends WC_Settings_Page {
 	 */
 	public function output() {
 		global $current_section;
-		
-		self::display_donate_notice();	//display de donate notice
-		
+				
 		if ( 'regions' == $current_section ) {										
 			self::regions_output();
 		} else {

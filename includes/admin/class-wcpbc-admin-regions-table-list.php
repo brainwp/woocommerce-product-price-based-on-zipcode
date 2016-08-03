@@ -51,7 +51,7 @@ class WCPBC_Admin_Regions_Table_List extends WP_List_Table {
 		return array(
 			'cb'		=> '<input type="checkbox" />',
 			'name'		=> __( 'Region name', 'wc-price-based-zipcode' ),
-			'countries'	=> __( 'Countries', 'wc-price-based-zipcode' ),
+			'countries'	=> __( 'Postcodes', 'wc-price-based-zipcode' ),
 			'currency'	=> __( 'Currency', 'wc-price-based-zipcode' )
 		);
 	}
@@ -179,8 +179,8 @@ class WCPBC_Admin_Regions_Table_List extends WP_List_Table {
 		$data = array(
 			array(
 				'key' 		=> $this->default_region_key,
-				'name' 		=> 'Default Zone',
-				'countries'	=> 'All countries not are included in other zones',
+				'name' 		=> 'Default Region',
+				'countries'	=> 'All postcodes not are included in other regions',
 				'currency'	=> $this->base_currency
 			)
 		);		
