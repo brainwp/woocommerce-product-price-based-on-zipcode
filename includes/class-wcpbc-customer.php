@@ -33,7 +33,6 @@ class WCPBC_Customer {
 		$this->_data = WC()->session->get( 'wcpbc_customer' );	
 		
 		$wc_customer_zipcode = wcpbc_get_woocommerce_zipcode();					
-
 		if ( empty( $this->_data ) || ! $this->zipcode_exists( $wc_customer_zipcode, $this->_data ) || ( $this->timestamp < get_option( 'wc_price_based_country_timestamp' ) ) ) {
 
 			$this->set_zipcode( $wc_customer_zipcode );
@@ -64,6 +63,9 @@ class WCPBC_Customer {
 	 * @access public
 	 */
 	public function zipcode_exists( $wc_customer_zipcode, $zipcodes ) {
+		if ( ! $wc_customer_zipcode || empty( $wc_customer_zipcode ) ) {
+			return false;
+		}
 		$codes = explode( "\n", $zipcodes[ 'zipcodes' ] );
 		$wc_customer_zipcode = str_replace( array(' ', '-' ), '', $wc_customer_zipcode );
 		$wc_customer_zipcode = intval( $wc_customer_zipcode );
@@ -109,6 +111,9 @@ class WCPBC_Customer {
 	 * @return boolean
 	 */
 	public function set_zipcode( $wc_customer_zipcode ) {
+		if ( ! $wc_customer_zipcode || empty( $wc_customer_zipcode ) ) {
+			return false;
+		}
 		
 		$has_region = false;
 
