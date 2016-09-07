@@ -155,4 +155,4 @@ class WCPBC_Install {
 	}
 }
 
-WCPBC_Install::init();
+//WCPBC_Install::init();
