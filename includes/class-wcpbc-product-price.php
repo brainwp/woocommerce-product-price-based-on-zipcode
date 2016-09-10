@@ -306,7 +306,7 @@ class WCPBC_Product_Price {
      * @param array $rate     
      * @param array $packages          
      */
-    public static function flat_rate_shipping_conversion( $method, $rate, $packages ) {       
+    public static function flat_rate_shipping_conversion( $method, $rate, $packages = array() ) {       
 
         if ( WCPBZIP()->customer->exchange_rate && WCPBZIP()->customer->exchange_rate != '1' && get_option('wc_price_based_shipping_conversion') === 'yes' ) {           
             for( $i=0; $i< count($method->rates); $i++ ) {
