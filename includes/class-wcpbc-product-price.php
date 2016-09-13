@@ -25,7 +25,7 @@ class WCPBC_Product_Price {
 
 		/* Calculate totals */
 		add_action( 'woocommerce_calculate_totals', array( __CLASS__ , 'calculate_totals' ), 9999 );
-		add_action( 'woocommerce_review_order_before_cart_contents', array( __CLASS__ , 'exec_calculate_totals_before_cart_contents' ), 9999 );
+		//add_action( 'woocommerce_review_order_before_cart_contents', array( __CLASS__ , 'exec_calculate_totals' ), 9999 );
 		/* WC_Product */
 		add_filter( 'woocommerce_get_price', array( __CLASS__ , 'get_price' ), 10, 2 );
 
@@ -67,15 +67,26 @@ class WCPBC_Product_Price {
 		/* Products on sale */
 		add_filter( 'pre_transient_wc_products_onsale', array( __CLASS__ , 'product_ids_on_sale' ), 10, ( version_compare( $wp_version, '4.4', '<' ) ? 1 : 2 ) );
 	}
-	public function discount_bundle_items() {
+	/**
+	 * Calculate discounts if have bundle itens
+	 * @return float
+	 */
+	public function discount_bundle_items( $location = 'cart' ) {
 		$discount = 0;
 		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 			if ( isset( $cart_item[ 'bundled_by'] ) ) {
 				$discount = $discount + $cart_item[ 'line_total' ];
+				WC()->cart->cart_contents[ $cart_item_key ][ 'line_total' ] = 0;
+				WC()->cart->cart_contents[ $cart_item_key ][ 'line_subtotal' ] = 0;
 			}
 		}
 		return $discount;
 	}
+	/**
+	 * Force to recalculate totals
+	 * @param object $wc_cart 
+	 * @return void
+	 */
 	public function calculate_totals( $wc_cart ) {
 		if ( ! WCPBZIP()->customer->group_key ) {
 			return;
@@ -85,12 +96,13 @@ class WCPBC_Product_Price {
 		WC()->cart->subtotal = WC()->cart->subtotal - $discount;
 		WC()->cart->subtotal_ex_tax = WC()->cart->subtotal_ex_tax - $discount;
 	}
-	public function calculate_subtotal( $cart_subtotal, $compound = false, $wc_cart = NULL ) {
-		if ( ! WCPBZIP()->customer->group_key ) {
-			return $cart_subtotal;
-		}
-		echo WC()->cart->subtotal;
-		return $cart_subtotal; 
+	/**
+	 * Force to recalculate totals
+	 * @param
+	 * @return void
+	 */
+	public function exec_calculate_totals() {
+		self::calculate_totals( false );
 	}
 	/**
 	 * Return currency
@@ -122,8 +134,7 @@ class WCPBC_Product_Price {
 			$wcpbc_price = get_post_meta( $post_id, $meta_key_preffix . $price_type, true );
 
 		} elseif ( WCPBZIP()->customer->exchange_rate && !empty( $price ) ) {
-
-				$wcpbc_price = ( $price * WCPBZIP()->customer->exchange_rate );							
+			$wcpbc_price = ( $price * WCPBZIP()->customer->exchange_rate );							
 		}
 		
 		return $wcpbc_price;
