@@ -24,8 +24,9 @@ class WCPBC_Product_Price {
 		add_filter( 'woocommerce_currency',  array( __CLASS__ , 'currency' ) );
 
 		/* Calculate totals */
-		add_action( 'woocommerce_calculate_totals', array( __CLASS__ , 'calculate_totals' ), 9999 );
-		//add_action( 'woocommerce_review_order_before_cart_contents', array( __CLASS__ , 'exec_calculate_totals' ), 9999 );
+		//add_action( 'woocommerce_before_cart_totals', array( __CLASS__ , 'calculate_totals' ), 9999 );
+		add_action( 'woocommerce_after_calculate_totals', array( __CLASS__ , 'exec_calculate_totals' ), 9999 );
+		
 		/* WC_Product */
 		add_filter( 'woocommerce_get_price', array( __CLASS__ , 'get_price' ), 10, 2 );
 
@@ -75,9 +76,11 @@ class WCPBC_Product_Price {
 		$discount = 0;
 		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 			if ( isset( $cart_item[ 'bundled_by'] ) ) {
-				$discount = $discount + $cart_item[ 'line_total' ];
+				$discount = $discount + $cart_item[ 'line_subtotal' ];
 				WC()->cart->cart_contents[ $cart_item_key ][ 'line_total' ] = 0;
 				WC()->cart->cart_contents[ $cart_item_key ][ 'line_subtotal' ] = 0;
+			} else {
+				//echo json_encode( $cart_item );
 			}
 		}
 		return $discount;
@@ -92,9 +95,12 @@ class WCPBC_Product_Price {
 			return;
 		}
 		$discount = self::discount_bundle_items();
+		$discount_coupon = $discount + WC()->cart->discount_cart;
 		WC()->cart->cart_contents_total = WC()->cart->cart_contents_total - $discount;
-		WC()->cart->subtotal = WC()->cart->subtotal - $discount;
+		WC()->cart->total = WC()->cart->total - $discount;
+		//WC()->cart->subtotal = WC()->cart->subtotal - $discount;
 		WC()->cart->subtotal_ex_tax = WC()->cart->subtotal_ex_tax - $discount;
+		//echo $discount;
 	}
 	/**
 	 * Force to recalculate totals
