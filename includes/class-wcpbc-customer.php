@@ -28,8 +28,12 @@ class WCPBC_Customer {
 	 * @access public
 	 */
 
-	public function __construct() {		
-		
+	public function __construct() {	
+		if (strpos($_SERVER['REQUEST_URI'], 'wp-json') !== false) {
+		    return false;
+		}
+	
+
 		$this->_data = WC()->session->get( 'wcpbc_customer' );	
 		
 		$wc_customer_zipcode = wcpbc_get_woocommerce_zipcode();					
