@@ -249,7 +249,7 @@ class WCPBC_Product_Price {
 
 		if ( WCPBZIP()->customer->group_key ) {
 
-			$variation_id = get_post_meta( $product->id, '_' . WCPBZIP()->customer->group_key . '_' . $min_or_max . $price_type . '_variation_id', true );
+			$variation_id = get_post_meta( $product->get_id(), '_' . WCPBZIP()->customer->group_key . '_' . $min_or_max . $price_type . '_variation_id', true );
 
 			if ( $variation_id ) {
 
