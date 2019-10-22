@@ -32,7 +32,7 @@ class WCPBC_Product_Price {
 
 		add_filter( 'woocommerce_get_regular_price', array( __CLASS__ , 'get_regular_price') , 10, 2 );
 
-		add_filter( 'woocommerce_get_sale_price', array( __CLASS__ , 'get_sale_price') , 10, 2 );
+		add_filter( 'woocommerce_product_get_sale_price', array( __CLASS__ , 'get_sale_price') , 10, 2 );
 
 		add_filter( 'woocommerce_adjust_non_base_location_prices', array( __CLASS__, 'adjust_non_base_location_prices' ) );
 
