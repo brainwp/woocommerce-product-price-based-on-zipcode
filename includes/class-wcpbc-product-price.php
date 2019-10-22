@@ -72,7 +72,7 @@ class WCPBC_Product_Price {
 	 * Calculate discounts if have bundle itens
 	 * @return float
 	 */
-	public function discount_bundle_items( $location = 'cart' ) {
+	static function discount_bundle_items( $location = 'cart' ) {
 		$discount = 0;
 		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 			if ( isset( $cart_item[ 'bundled_by'] ) ) {
@@ -90,7 +90,7 @@ class WCPBC_Product_Price {
 	 * @param object $wc_cart
 	 * @return void
 	 */
-	public function calculate_totals( $wc_cart ) {
+	static function calculate_totals( $wc_cart ) {
 		if ( ! WCPBZIP()->customer->group_key ) {
 			return;
 		}
@@ -107,7 +107,7 @@ class WCPBC_Product_Price {
 	 * @param
 	 * @return void
 	 */
-	public function exec_calculate_totals() {
+	static function exec_calculate_totals() {
 		self::calculate_totals( false );
 	}
 	/**
@@ -168,7 +168,7 @@ class WCPBC_Product_Price {
 				$meta_key_preffix .= '_variable';
 
 			} else {
-				$post_id = $product->id;
+				$post_id = $product->get_id();
 			}
 
 			$wcpbc_price = self::wcpbc_get_price( $meta_key_preffix, $price_type, $post_id, $price );
@@ -186,7 +186,7 @@ class WCPBC_Product_Price {
 		 * Store product Id for later use in filter "woocommerce_adjust_non_base_location_prices",
 		 * $product must be a parameter in this filter
 		 */
-		self::$current_product_id = $product->id;
+		self::$current_product_id = $product->get_id();
 
 		return self::get_product_price( $price, $product, '_price');
 	}
