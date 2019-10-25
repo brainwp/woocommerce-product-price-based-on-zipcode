@@ -67,7 +67,21 @@ class WCPBC_Product_Price {
 
 		/* Products on sale */
 		add_filter( 'pre_transient_wc_products_onsale', array( __CLASS__ , 'product_ids_on_sale' ), 10, ( version_compare( $wp_version, '4.4', '<' ) ? 1 : 2 ) );
+
+		add_filter( 'woocommerce_cart_subtotal',array( __CLASS__ , 'woocommerce_cart_contents_subtotal' ), 10, 1 );
+		// add_filter( 'woocommerce_cart_total',array( __CLASS__ , 'woocommerce_cart_contents_total' ), 10, 1 );
+
 	}
+
+	static function woocommerce_cart_contents_subtotal( $wc_price ) {
+		$discount_bundles = self::discount_bundle_items();
+		$wc_price = WC()->cart->get_subtotal() - $discount_bundles;
+		return wc_price($wc_price);
+
+	}
+
+
+
 	/**
 	 * Calculate discounts if have bundle itens
 	 * @return float
@@ -86,6 +100,7 @@ class WCPBC_Product_Price {
 		}
 		return $discount;
 	}
+
 	/**
 	 * Force to recalculate totals
 	 * @param object $wc_cart
@@ -108,19 +123,18 @@ class WCPBC_Product_Price {
 				$coupon_sum = $coupon_sum + $c->get_amount();
 			}
 		}
-
-		WC()->cart->cart_contents_total = WC()->cart->cart_contents_total - $discount_bundles + $discount_bundles*$coupon_sum/100;
+		// reduz do preço os itens filhos de bundle
+		WC()->cart->cart_contents_total = WC()->cart->cart_contents_total - $discount_bundles;
 		WC()->cart->total = WC()->cart->total - $discount_bundles + $discount_bundles*$coupon_sum/100 ;
 		//WC()->cart->subtotal = WC()->cart->subtotal - $discount;
 		WC()->cart->subtotal_ex_tax = WC()->cart->subtotal_ex_tax - $discount_bundles;
 
-		// Pega
+		//  retira de cada cupom de porcentagem o desconto aplicado nos itens bundle filhos
 		$coupon_discount_totals = WC()->cart->get_coupon_discount_totals();
 		foreach ($coupon_array as $coupon_name => $value) {
 			$coupon_discount_totals[$coupon_name] = $coupon_discount_totals[$coupon_name] - $discount_bundles*$value/100 ;
 		}
 		WC()->cart->set_coupon_discount_totals($coupon_discount_totals);
-		print_r($coupon_discount_totals);
 	}
 	/**
 	 * Force to recalculate totals
@@ -150,11 +164,8 @@ class WCPBC_Product_Price {
 	 * @return string price
 	 */
 	protected static function wcpbc_get_price( $meta_key_preffix, $price_type, $post_id, $price ){
-
 		$wcpbc_price = $price;
-
 		$price_method = get_post_meta( $post_id, $meta_key_preffix . '_price_method', true );
-
 		if ( $price_method === 'manual') {
 
 			$wcpbc_price = get_post_meta( $post_id, $meta_key_preffix . $price_type, true );
@@ -189,8 +200,8 @@ class WCPBC_Product_Price {
 
 			} else {
 				$post_id = $product->get_id();
-			}
 
+			}
 			$wcpbc_price = self::wcpbc_get_price( $meta_key_preffix, $price_type, $post_id, $price );
 		}
 
