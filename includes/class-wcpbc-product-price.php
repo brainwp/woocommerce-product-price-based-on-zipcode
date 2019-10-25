@@ -77,6 +77,7 @@ class WCPBC_Product_Price {
 		foreach ( WC()->cart->get_cart() as $cart_item_key => $cart_item ) {
 			if ( isset( $cart_item[ 'bundled_by'] ) ) {
 				$discount = $discount + $cart_item[ 'line_subtotal' ];
+				// $discount = $discount + $cart_item[ 'line_subtotal' ]*$discount_percentage/100;
 				WC()->cart->cart_contents[ $cart_item_key ][ 'line_total' ] = 0;
 				WC()->cart->cart_contents[ $cart_item_key ][ 'line_subtotal' ] = 0;
 			} else {
@@ -94,13 +95,32 @@ class WCPBC_Product_Price {
 		if ( ! WCPBZIP()->customer->group_key ) {
 			return;
 		}
-		$discount = self::discount_bundle_items();
-		$discount_coupon = $discount + WC()->cart->discount_cart;
-		WC()->cart->cart_contents_total = WC()->cart->cart_contents_total - $discount;
-		WC()->cart->total = WC()->cart->total - $discount;
+		$discount_bundles = self::discount_bundle_items();
+		$discount_coupon = 0;
+		$coupons = WC()->cart->get_applied_coupons();
+		$coupon_sum = 0;
+		$coupon_array = array();
+		// cria array com cupons e porcentagem e cria variavel com soma dos cupons de porcentagem
+		foreach ($coupons as $coupon) {
+			$c = new WC_Coupon($coupon);
+			if ($c->get_discount_type() == "percent") {
+				$coupon_array[$coupon] = $c->get_amount();
+				$coupon_sum = $coupon_sum + $c->get_amount();
+			}
+		}
+
+		WC()->cart->cart_contents_total = WC()->cart->cart_contents_total - $discount_bundles + $discount_bundles*$coupon_sum/100;
+		WC()->cart->total = WC()->cart->total - $discount_bundles + $discount_bundles*$coupon_sum/100 ;
 		//WC()->cart->subtotal = WC()->cart->subtotal - $discount;
-		WC()->cart->subtotal_ex_tax = WC()->cart->subtotal_ex_tax - $discount;
-		//echo $discount;
+		WC()->cart->subtotal_ex_tax = WC()->cart->subtotal_ex_tax - $discount_bundles;
+
+		// Pega
+		$coupon_discount_totals = WC()->cart->get_coupon_discount_totals();
+		foreach ($coupon_array as $coupon_name => $value) {
+			$coupon_discount_totals[$coupon_name] = $coupon_discount_totals[$coupon_name] - $discount_bundles*$value/100 ;
+		}
+		WC()->cart->set_coupon_discount_totals($coupon_discount_totals);
+		print_r($coupon_discount_totals);
 	}
 	/**
 	 * Force to recalculate totals
