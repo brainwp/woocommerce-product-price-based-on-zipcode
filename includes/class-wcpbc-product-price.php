@@ -20,8 +20,9 @@ class WCPBC_Product_Price {
 	public static function init(){
 		global $wp_version;
 
-		/* Currency */
-		add_filter( 'woocommerce_currency',  array( __CLASS__ , 'currency' ) );
+		/* Currency  removed, the currency was not beeing printed on unlogged users*/
+
+		// add_filter( 'woocommerce_currency',  array( __CLASS__ , 'currency' ) );
 
 		/* Calculate totals */
 		//add_action( 'woocommerce_before_cart_totals', array( __CLASS__ , 'calculate_totals' ), 9999 );
